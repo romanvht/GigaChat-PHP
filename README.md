@@ -10,7 +10,7 @@ require __DIR__ . '/gigachat.php';
 use gigachat\Gigachat;
 
 $giga = gigachat::getInstance();
-echo $giga::ask($answer);
+echo $giga::ask('Привет');
 ```
 
 Для запроса картинок используется функция ```get_image()```, в ней следует изменить директорию сохранения изображений.
