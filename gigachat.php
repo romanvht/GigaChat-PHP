@@ -2,7 +2,7 @@
 namespace gigachat;
 
 class Gigachat{
-    protected const CLIENT_AUTH = "OTQxMmNhNmQtNWVlMS00NWQxLWI5MzktZDE1MTg1OTMwM2FlOjQxMzA5YTA1LWFjMjMtNDk3ZS1hZDFhLTZjOTEyNTlhOGIxNQ==";
+    protected const CLIENT_AUTH = "";
 
     protected static $instance; 
     private static $token = false;
