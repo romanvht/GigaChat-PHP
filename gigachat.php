@@ -9,15 +9,6 @@ class Gigachat{
     private static $tokenExp = false;
     private static $messages = [];
 
-    private function __construct(){
-    }
-
-    private function __clone(){
-    }
-
-    public function __wakeup(){
-    }
-
     public static function getInstance(){
         if (is_null(self::$instance)) {
             self::$instance = new self;
@@ -74,7 +65,7 @@ class Gigachat{
 		  ),
 		));
 		
-        $result = curl_exec($curl);
+        	$result = curl_exec($curl);
 		
 		if($result){
 			file_put_contents("/var/www/html/img/".$image.".jpg", $result);
@@ -111,15 +102,15 @@ class Gigachat{
           $result = self::get($url, $headers, http_build_query($data));
           
           if(!empty($result["access_token"])){
-             self::$token = $result["access_token"];
-			 file_put_contents('token.txt', self::$token);
-             self::$tokenExp = $result["expires_at"];
-			 file_put_contents('token_ext.txt', self::$tokenExp);		 
+             	self::$token = $result["access_token"];
+		file_put_contents('token.txt', self::$token);
+             	self::$tokenExp = $result["expires_at"];
+		file_put_contents('token_ext.txt', self::$tokenExp);		 
           }else{
-             self::$token = false;
-             file_put_contents('token.txt', '');
-             self::$tokenExp =  false;
-             file_put_contents('token_ext.txt', '');               
+             	self::$token = false;
+             	file_put_contents('token.txt', '');
+             	self::$tokenExp =  false;
+             	file_put_contents('token_ext.txt', '');               
           }          
        }
        return self::$token;   
@@ -132,19 +123,19 @@ class Gigachat{
           
           $no_history = false;
           if(preg_match('/нарисуй|изобрази/uis', $question, $matches)){
-			$no_history = true;
-			$temperature = 1;
-		  }
+		$no_history = true;
+		$temperature = 1;
+	  }
 
           if($tok){
             $url = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions";
             $headers = [
                 'Authorization: Bearer ' .$tok,                
                 'Content-Type: application/json',
-				'Accept: application/json'
+		'Accept: application/json'
             ];
             if($no_history === false){
-				$messages = self::$messages;
+		$messages = self::$messages;
             }
             $messages[] = [
                 "role" => "user",
@@ -152,30 +143,30 @@ class Gigachat{
              ];
             $data = [
                 "model" => "GigaChat:latest",
-				"temperature" => $temperature,
-				"max_tokens" => 1024,
-				"messages" => $messages
+		"temperature" => $temperature,
+		"max_tokens" => 1024,
+		"messages" => $messages
              ];
             $result = self::get($url, $headers, json_encode($data));            
             
             $answer = $result["choices"][0]["message"]["content"];
 			
             if(!empty($answer)){
-				if($no_history === false){
-					$messages[] = [
-						"role" => "assistant",
-						"content"=> $answer
-					];
+		if($no_history === false){
+			$messages[] = [
+				"role" => "assistant",
+				"content"=> $answer
+			];
 
-					self::$messages = $messages;
-				}
+			self::$messages = $messages;
+		}
 
-				preg_match_all('/<img[^>]*?src=\"(.*)\"/iU', $answer, $imageSearch); 
-				if(isset($imageSearch[1][0])){
-					$answer = preg_replace('/<img(?:\\s[^<>]*)?>/i', '', $answer);
-					$image = self::get_image($tok, $imageSearch[1][0]);
-					$answer .= 'http://'.$_SERVER['SERVER_ADDR'].'/'.$image;
-				}
+		preg_match_all('/<img[^>]*?src=\"(.*)\"/iU', $answer, $imageSearch); 
+		if(isset($imageSearch[1][0])){
+			$answer = preg_replace('/<img(?:\\s[^<>]*)?>/i', '', $answer);
+			$image = self::get_image($tok, $imageSearch[1][0]);
+			$answer .= 'http://'.$_SERVER['SERVER_ADDR'].'/'.$image;
+		}
             }
           }
        }   
