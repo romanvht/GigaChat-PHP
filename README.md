@@ -1,4 +1,4 @@
-# GigaChatPHP
+# GigaChat PHP
 Класс для общения с GigaChat сбера в PHP.
 
 1. Закодируйте начения Client Id и Client Secret в Base 64, взятые из https://developers.sber.ru/studio/workspaces/
