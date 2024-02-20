@@ -116,7 +116,7 @@ class Gigachat{
        return self::$token;   
     }
 
-    public static function ask($question, $temperature = 0.7){
+    public static function answer($question, $temperature = 0.7){
        $answer = "";
        if(!empty($question)){
           $tok = self::getToken();          
