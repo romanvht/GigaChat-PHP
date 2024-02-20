@@ -87,9 +87,8 @@ class Gigachat{
        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
    }
 
-    public static function getToken($force = false){       
-       $now = time()-300;       
-       if(!self::$token || !self::$tokenExp || self::$tokenExp > $now || $force === true){
+    public static function getToken($force = false){          
+       if(!self::$token || !self::$tokenExp || self::$tokenExp < time() || $force === true){
           $url = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth";
           $headers = [
              'Authorization: Bearer ' .self::CLIENT_AUTH,
@@ -104,7 +103,7 @@ class Gigachat{
           if(!empty($result["access_token"])){
              	self::$token = $result["access_token"];
 		file_put_contents('token.txt', self::$token);
-             	self::$tokenExp = $result["expires_at"];
+             	self::$tokenExp = round($result["expires_at"] / 1000);
 		file_put_contents('token_ext.txt', self::$tokenExp);		 
           }else{
              	self::$token = false;
