@@ -7,11 +7,12 @@
 Использование:
 ```
 require __DIR__ . '/gigachat.php';
-use gigachat\Gigachat;
+use neiro\Gigachat;
 
-$giga = gigachat::getInstance();
-echo $giga::answer('Привет');
+if($giga = gigachat::getInstance()){
+  echo $giga::answer('Привет');
+}
 ```
 
 Для запроса картинок используется функция ```get_image()```, в ней следует изменить директорию сохранения изображений.
-В функции ```ask()``` можно изменить формат вывода изображений в ответе
+В функции ```answer()``` можно изменить формат вывода изображений в ответе
